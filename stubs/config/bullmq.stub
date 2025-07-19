@@ -1,0 +1,20 @@
+import { defineConfig } from '@recordset/adonis6-bullmq'
+import env from '#start/env'
+
+export default defineConfig({
+  host: env.get('REDIS_HOST', '127.0.0.1'),
+  port: env.get('REDIS_PORT', 6379),
+  password: env.get('REDIS_PASSWORD', ''),
+  db: env.get('REDIS_DB', 0),
+  keyPrefix: env.get('BULLMQ_KEY_PREFIX', 'bull'),
+  
+  defaultJobOptions: {
+    removeOnComplete: 10,
+    removeOnFail: 5,
+    attempts: 3,
+    backoff: {
+      type: 'exponential',
+      delay: 2000,
+    },
+  },
+})

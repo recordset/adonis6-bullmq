@@ -1,0 +1,50 @@
+{{#var jobClassName = entity.name}}
+{{#var jobFileName = string.dashCase(entity.name)}}
+{{{
+  exports({
+    to: app.jobsPath(entity.path, entity.name + '.ts')
+  })
+}}}
+import { BaseJob } from '@recordset/adonis6-bullmq/job'
+import type { JobContext } from '@recordset/adonis6-bullmq/types'
+
+export default class {{ jobClassName }} extends BaseJob {
+  public static get jobName(): string {
+    return '{{ jobFileName }}'
+  }
+
+  /**
+   * Handle the job execution
+   */
+  async handle(context: JobContext): Promise<any> {
+    const { data } = context
+    
+    // TODO: Implement your job logic here
+    console.log('Processing {{ jobClassName }} with data:', data)
+    
+    return { success: true, processedAt: new Date() }
+  }
+
+  /**
+   * Handle job failure (optional)
+   */
+  async failed(job: any, error: Error): Promise<void> {
+    console.error(`{{ jobClassName }} failed:`, error.message)
+    // TODO: Add your error handling logic here
+  }
+
+  /**
+   * Get job options (optional)
+   */
+  get jobOptions() {
+    return {
+      removeOnComplete: 10,
+      removeOnFail: 5,
+      attempts: 3,
+      backoff: {
+        type: 'exponential',
+        delay: 2000,
+      },
+    }
+  }
+}
