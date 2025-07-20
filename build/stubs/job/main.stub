@@ -1,0 +1,56 @@
+{{#var jobName = string(entity.name).removeSuffix('job').suffix('Job').pascalCase().toString()}}
+{{#var jobFileName = string(entity.name).removeSuffix('job').suffix('Job').snakeCase().removeExtension().ext('.ts').toString()}}
+{{{
+  exports({ to: app.makePath('app/jobs', entity.path, jobFileName) })
+}}}
+
+import { BaseJob } from '@recordset/adonis6-bullmq/job'
+import type { JobContext } from '@recordset/adonis6-bullmq/types'
+
+export default class {{ jobName }} extends BaseJob {
+  static get jobName() {
+    return '{{ jobName }}'
+  }
+
+  /**
+   * Handle the job execution
+   * @param context - The job context containing data and other information
+   */
+  async handle(context: JobContext): Promise<any> {
+    const { data, job } = context
+
+    // job.name
+    console.log('Job name:', job.name)
+
+    // Log the data being processed
+    console.log('🚀 Processing {{ jobName }} with data:', data)
+
+    // Simulate work
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
+    console.log('✅ {{ jobName }} completed successfully!')
+
+    return { success: true, processedAt: new Date() }
+  }
+
+  /**
+   * Handle job failure (optional)
+   */
+  async failed(_job: any, error: Error): Promise<void> {
+    console.error('❌ {{ jobName }} failed:', error.message)
+  }
+
+  /**
+   * Get job options (optional)
+   */
+  static get options() {
+    return {
+      concurrency: 1, // Set concurrency for this job
+      attempts: 3,
+      backoff: {
+        type: 'exponential' as const,
+        delay: 2000,
+      },
+    }
+  }
+}

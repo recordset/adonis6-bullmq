@@ -1,0 +1,15 @@
+{
+  "extends": "@adonisjs/tsconfig/tsconfig.package.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./build",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
+  },
+  "include": ["src", "commands", "providers", "configure.ts", "index.ts"],
+  "exclude": ["node_modules", "build", "tests"]
+}

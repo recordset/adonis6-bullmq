@@ -1,0 +1,23 @@
+/**
+ * BullMQ configuration
+ * See BullMQ docs: https://docs.bullmq.io/
+ */
+import env from '#start/env'
+
+{{{
+  exports({ to: app.configPath('bullmq.ts') })
+}}}
+
+export default {
+  connection: {
+    host: env.get('BULLMQ_HOST', '127.0.0.1'),
+    port: Number(env.get('BULLMQ_PORT', '6379')),
+    db: Number(env.get('BULLMQ_DB', '0')),
+    password: env.get('BULLMQ_PASSWORD'),
+  },
+  prefix: env.get('BULLMQ_KEY_PREFIX'),
+  defaultJobOptions: {
+    removeOnComplete: true,
+    removeOnFail: false,
+  },
+}
