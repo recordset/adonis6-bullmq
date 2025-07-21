@@ -72,7 +72,11 @@ await emailQueue.add(
   { email: 'user4@example.com' },
   { attempts: 5, backoff: { type: 'exponential', delay: 5000 } }
 )
+```
 
+## Listen for job events
+
+```typescript
 // Listen for job events (QueueEvents)
 import bullMQManager from '#services/bullmq_manager'
 const queueEvents = bullMQManager.events('EmailJob')
