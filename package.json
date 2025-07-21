@@ -1,7 +1,7 @@
 {
   "name": "@recordset/adonis6-bullmq",
   "description": "BullMQ provider for AdonisJS 6",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "engines": {
     "node": ">=20.6.0"
   },
