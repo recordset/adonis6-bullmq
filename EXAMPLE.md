@@ -5,9 +5,16 @@
 `app/jobs/email_job.ts`:
 
 ```typescript
-export default class EmailJob {
-  static jobName = 'email_job'
-  async handle({ data }: { data: any }) {
+import { BaseJob } from '@recordset/adonis6-bullmq/job'
+export default class EmailJob extends BaseJob {
+  static get jobName() {
+    return 'MyJob'
+  }
+
+  async handle(context: JobContext): Promise<any> {
+    const { data, job } = context
+    // job.name
+    console.log('Job name:', job.name)
     // Send email logic
     console.log('Sending email to', data.email)
   }
@@ -17,9 +24,9 @@ export default class EmailJob {
 ## 2. Add a job from anywhere in your app
 
 ```typescript
-import { Queue } from '@recordset/adonis6-bullmq'
+import bullMQManager from '#services/bullmq_manager'
+const emailQueue = bullMQManager.queue('EmailJob')
 
-const emailQueue = new Queue('EmailJob')
 // Add job normally
 await emailQueue.add('email_job', { email: 'user@example.com' })
 
@@ -37,7 +44,7 @@ await emailQueue.add(
 )
 
 // Listen for job events (QueueEvents)
-const queueEvents = new QueueEvents('EmailJob')
+const queueEvents = bullMQManager.events('EmailJob')
 
 queueEvents.on('completed', ({ jobId }) => {
   console.log('Email job completed:', jobId)

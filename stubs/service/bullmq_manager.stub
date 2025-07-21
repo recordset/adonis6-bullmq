@@ -1,0 +1,8 @@
+import { BullMQManager } from '@recordset/adonis6-bullmq'
+import bullmqConfig from '#config/bullmq'
+import logger from '@adonisjs/core/services/logger'
+{{{
+  exports({ to: app.makePath('app/services/bullmq_manager.ts') })
+}}}
+const bullMQManager = new BullMQManager(bullmqConfig, logger)
+export default bullMQManager

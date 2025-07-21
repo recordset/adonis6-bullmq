@@ -20,8 +20,15 @@ export async function configure(command: ConfigureCommand) {
 
   /**
    * Publish config file
+   * This will create a new file at `config/bullmq.ts` with the
    */
   await codemods.makeUsingStub(stubsRoot, 'stubs/config/bullmq.stub', {})
+
+  /**
+   * Generate BullMQManager service
+   * This service will be used to manage BullMQ queues and workers.
+   */
+  await codemods.makeUsingStub(stubsRoot, 'stubs/service/bullmq_manager.stub', {})
 
   /**
    * Register provider
