@@ -45,7 +45,8 @@ export default class BullListen extends BaseCommand {
       bullmq.worker(
         queueName,
         async (job) => {
-          const jobInstance = new JobClass()
+          // 🔥 FIXED: Use container.make() instead of new JobClass()
+          const jobInstance = await this.app.container.make(JobClass)
           return jobInstance.handle({ data: job.data, job })
         },
         { concurrency: 8 }
