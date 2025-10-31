@@ -19,6 +19,11 @@ export interface BullMQConfig {
   keyPrefix?: string
 
   /**
+   * Directory where job classes are located
+   */
+  jobsDirectory?: string
+
+  /**
    * Default queue options
    */
   defaultJobOptions?: {

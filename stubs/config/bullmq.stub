@@ -16,6 +16,7 @@ export default {
     password: env.get('BULLMQ_PASSWORD'),
   },
   prefix: env.get('BULLMQ_KEY_PREFIX'),
+  jobsDirectory: 'app/jobs',
   defaultJobOptions: {
     removeOnComplete: true,
     removeOnFail: false,

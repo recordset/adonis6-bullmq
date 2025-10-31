@@ -1,6 +1,7 @@
 import { BaseCommand, flags } from '@adonisjs/core/ace'
 import type { CommandOptions } from '@adonisjs/core/types/ace'
 import BullMQManager from '../src/bullmq_manager.js'
+import type { BullMQConfig } from '../src/types.js'
 import { readdir } from 'node:fs/promises'
 import { join, extname } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -24,7 +25,10 @@ export default class BullListen extends BaseCommand {
     logger.info('BullMQ worker started')
 
     // 1. Load all job classes from app/jobs
-    const jobsDir = join(fileURLToPath(this.app.appRoot), 'app/jobs')
+    const config = this.app.config.get<BullMQConfig>('bullmq')
+    const jobsDirectory = config?.jobsDirectory || 'app/jobs'
+    const jobsDir = join(fileURLToPath(this.app.appRoot), jobsDirectory)
+
     const files = await readdir(jobsDir)
     const jobs = await Promise.all(
       files
