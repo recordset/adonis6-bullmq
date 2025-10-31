@@ -6,7 +6,7 @@ import type { BullMQConfig } from '../src/types.js'
 export default class MakeJob extends BaseCommand {
   public static commandName = 'make:job'
   public static description = 'Generate job from template'
-  static options: CommandOptions = { allowUnknownFlags: true }
+  static options: CommandOptions = { allowUnknownFlags: true, startApp: true }
 
   @args.string({ description: 'Name of the job class' })
   declare name: string
