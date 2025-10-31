@@ -1,7 +1,7 @@
 {{#var jobName = string(entity.name).removeSuffix('job').suffix('Job').pascalCase().toString()}}
 {{#var jobFileName = string(entity.name).removeSuffix('job').suffix('Job').snakeCase().removeExtension().ext('.ts').toString()}}
 {{{
-  exports({ to: app.makePath('app/jobs', entity.path, jobFileName) })
+  exports({ to: app.makePath(jobsDirectory, entity.path, jobFileName) })
 }}}
 
 import { BaseJob } from '@recordset/adonis6-bullmq/job'
